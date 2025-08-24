@@ -1,0 +1,73 @@
+---
+description: Project-level rules for Cursor agents and edits in Boost.JSON Competitive Market Research (content engineering workflow).
+globs:
+  - "01_charter/**/*.md"
+  - "02_sources/**/*.csv"
+  - "02_sources/**/*.md"
+  - "03_feature_matrix/**/*.csv"
+  - "03_feature_matrix/**/*.md"
+  - "04_benchmarks/**/*.md"
+  - "05_drafts/**/*.md"
+  - "07_slices/**/*.md"
+  - "90_prompts/**/*.md"
+  - "98_plan/**/*.md"
+  - "99_admin/**/*.md"
+  - "README.md"
+alwaysApply: true
+---
+
+# Cursor Project Rules — Boost.JSON Competitive Market Research
+
+## Project type
+
+Content engineering (research synthesis). This is NOT a software development repo.
+
+## Source of truth
+
+- Claims originate in `02_sources/EvidenceLog.csv` (append-only).
+- Comparative statements live in `03_feature_matrix/FeatureMatrix.csv`.
+- Narrative lives in `05_drafts/` and must cite Evidence IDs inline as `[EVID:ID]`.
+
+## Agent workflow
+
+- Two modes are supported:
+  - Manual ChatGPT Hub (no RAG): run Research/Matrix/Writer/Red-Team as separate chats using init blocks and runbooks.
+  - AutoSlice POC (automated in Cursor): one conversation performs Research → Hygiene → Matrix → Writer → Red-Team end-to-end.
+- Use the runbooks in `07_slices/` and prompts in `90_prompts/`.
+- Writer and Red-Team operate strictly on FeatureMatrix + EvidenceLog subsets.
+
+## Editing rules
+
+- Do not invent facts; never write narrative without matching Evidence IDs.
+- Do not reformat CSV headers or change column order.
+- Keep `evidence_id` stable once assigned; prefer `EVID-YYYYMMDD-<dimension>-<lib>-NNN`.
+- Keep quotes ≤ 25 words; avoid smart quotes in CSV.
+- Prefer first-party docs over mirrors/blogs; include `method`, `source_type`, `pub_date`, and `retrieved_date`.
+
+## Scope boundaries
+
+- Keep performance claims in performance sections unless noted in matrix `notes`.
+- If evidence is missing, leave cells blank; do not speculate.
+
+## Commit hygiene
+
+- Use focused commits:
+  - `Evidence: <dimension> × <library>`
+  - `Matrix: update <dimension> — <library>`
+  - `Draft: <dimension> — update <library>`
+  - `RedTeam: <dimension> — <library>`
+- Do not batch unrelated changes.
+
+## Review gates
+
+- G1: Evidence hygiene checks before Matrix.
+- G2: Matrix freeze per dimension.
+- G3: Draft approved after Red-Team checklist passes.
+
+## Automation modes
+
+- Manual ChatGPT Hub (default):
+  - Create four chats (Research, Matrix, Writer, Red-Team), paste init blocks from `90_prompts/agent_init_blocks.md`, then follow the dimension runbook in `07_slices/`.
+- AutoSlice POC (optional):
+  - Kickoff with `90_prompts/agent_autoslice_poc.md` (Parse Speed example). The model returns four artifacts: evidence_csv, matrix_row_csv, draft_md, redteam_md.
+  - Apply outputs to the repo per the runbook `07_slices/parse_speed__autoslice_poc.runbook.md`.
