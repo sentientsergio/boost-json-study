@@ -19,10 +19,16 @@ For each agent, create a new ChatGPT conversation and set the model to GPT‑5.
 
 ## Workflow (per slice)
 
-1. Research: Paste run command + copy the relevant constraints. Paste resulting CSV rows into `02_sources/EvidenceLog.csv` (append‑only).
+Option A — Manual Hub (default):
+1. Research: Paste run command + constraints. Paste resulting CSV rows into `02_sources/EvidenceLog.csv` (append‑only).
 2. Matrix: Paste all evidence rows for the dimension. Paste the one returned CSV row into `03_feature_matrix/FeatureMatrix.csv` (update that row).
 3. Writer: Paste the matrix row and the evidence rows used by that row. Paste the returned Markdown into `05_drafts/<section>.md`.
 4. Red‑Team: Paste the draft, the matrix row, and the evidence rows. Paste the returned checklist into the draft or `_redteam.md`.
+
+Option B — Hybrid AutoSlice (deep‑research gate, then automated):
+1. Start a chat with `90_prompts/agent_autoslice_hybrid.md`.
+2. When prompted, paste up to four sources using the required template (one per library if possible).
+3. The agent will return four artifacts (evidence_csv, matrix_row_csv, draft_md, redteam_md). Apply them to the repo per the runbook.
 
 ## Guardrails
 
