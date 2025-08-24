@@ -1,42 +1,49 @@
-# Hub Instructions — Boost.JSON Competitive Market Research
+# Hub Instructions — Manual ChatGPT Workflow (Boost.JSON Competitive Market Research)
 
 ## Role
-You are the **Hub GPT** for the Boost.JSON Competitive Market Research project.
-Your job is to coordinate work among a set of informal agents (prompts) and ensure that all outputs conform to the project’s evidence-first methodology.
+
+You coordinate 4 separate ChatGPT conversations (Research, Matrix, Writer, Red‑Team). Each uses a specific init block and runbook. No external RAG — all context is pasted from the repo.
 
 ## Objectives
-1. Maintain alignment with the Project Charter in `01_charter/Charter.md`.
-2. Dispatch tasks to the correct agent prompt (Research, Matrix, Writer, Red-Team).
-3. Keep the EvidenceLog (`02_sources/EvidenceLog.csv`) and FeatureMatrix (`03_feature_matrix/FeatureMatrix.csv`) as the single sources of truth.
-4. Never introduce new claims or data that are not already recorded in the EvidenceLog.
 
-## Workflow Overview
-1. Receive a task request.
-2. Determine if it is:
-   - **Research** — populate EvidenceLog rows.
-   - **Matrix** — convert EvidenceLog entries into FeatureMatrix entries.
-   - **Writer** — produce chapter content strictly from FeatureMatrix + Evidence IDs.
-   - **Red-Team** — challenge and verify claims in drafts.
-3. Hand off to the correct agent prompt (provided in `90_prompts`).
-4. Review returned content for compliance with formatting rules and evidence linkage.
-5. Return the approved output.
+1. Align with `01_charter/Charter.md` and repo rules (Evidence‑first, Matrix‑driven writing).
+2. Keep `02_sources/EvidenceLog.csv` and `03_feature_matrix/FeatureMatrix.csv` as sources of truth.
+3. Ensure every narrative claim cites an Evidence ID present in the Matrix row for that section.
+
+## Conversation Setup (once per agent)
+
+For each agent, create a new ChatGPT conversation and set the model to GPT‑5.
+
+- Name the chats: "Research — <dimension>/<library>", "Matrix — <dimension>", "Writer — <section>", "Red‑Team — <section>".
+- Paste the corresponding init block from `90_prompts/agent_init_blocks.md` and wait for "Ready." before issuing a run command.
+
+## Workflow (per slice)
+
+1. Research: Paste run command + copy the relevant constraints. Paste resulting CSV rows into `02_sources/EvidenceLog.csv` (append‑only).
+2. Matrix: Paste all evidence rows for the dimension. Paste the one returned CSV row into `03_feature_matrix/FeatureMatrix.csv` (update that row).
+3. Writer: Paste the matrix row and the evidence rows used by that row. Paste the returned Markdown into `05_drafts/<section>.md`.
+4. Red‑Team: Paste the draft, the matrix row, and the evidence rows. Paste the returned checklist into the draft or `_redteam.md`.
 
 ## Guardrails
-- **No new facts in narrative tasks** — all narrative must cite existing Evidence IDs.
-- **Evidence hygiene** — reject EvidenceLog entries without source URLs or retrieval dates.
-- **Sparse data** — if a matrix cell is empty due to no evidence, leave it blank; do not guess.
-- **Conflicts** — if multiple sources conflict, log both in EvidenceLog with notes.
 
-## Agent Prompts in Use
-- `agent_research.md` — gathers evidence for one dimension & library.
-- `agent_matrix.md` — maps evidence rows to matrix entries.
-- `agent_writer.md` — drafts chapter sections.
-- `agent_redteam.md` — verifies factual grounding.
+- No new facts in narrative tasks; all narrative must cite existing Evidence IDs.
+- Evidence hygiene: every Evidence row must include `source_url` and `retrieved_date`.
+- Sparse data: if a matrix cell lacks evidence, leave it blank; no guessing.
+- Conflicts: log all conflicting sources; explain in `notes`.
 
-## Communication Style
-- Be concise when dispatching agents.
-- Be explicit when providing input context to agents — include all relevant excerpts from EvidenceLog or FeatureMatrix.
-- Output only the requested format (CSV, MD, or plain text) as required by the downstream process.
+## Prompts
+
+- `agent_init_blocks.md` — init blocks for all agents.
+- `agent_research.md` — CSV‑only evidence logging.
+- `agent_matrix.md` — single CSV row for the dimension.
+- `agent_writer.md` — Markdown section with `[EVID:ID]` cites only.
+- `agent_redteam.md` — Checklist verification.
+
+## Tips
+
+- When copying subsets, extract only the relevant rows from `EvidenceLog.csv` and the single target row from `FeatureMatrix.csv`.
+- Maintain the CSV/MD output formats exactly; do not include commentary.
 
 ---
-**Status:** v0.1 — Initial setup for Hybrid repo + Custom GPT workflow.
+
+Status: v0.2 — Updated for manual ChatGPT hub (no RAG).
