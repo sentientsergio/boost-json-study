@@ -6,9 +6,11 @@ This runbook describes the fully/mostly automated flow for a single slice in one
 - Confirm toggles in `90_prompts/agent_autoslice_poc.md`.
 - Decide libraries in scope (default: all four).
 
-## Step 1 — Kickoff (single conversation)
-- Paste the Kickoff Prompt from `90_prompts/agent_autoslice_poc.md`.
-- Wait for the model to return four artifacts:
+## Step 1 — Kickoff (choose mode)
+- Fully automated: Paste the Kickoff Prompt from `90_prompts/agent_autoslice_poc.md`.
+- Hybrid deep-research: Paste the Kickoff Prompt from `90_prompts/agent_autoslice_hybrid.md`; the model will prompt for up to 4 sources, then proceed automatically.
+
+Wait for the model to return four artifacts:
   - evidence_csv (rows in EvidenceLog schema)
   - matrix_row_csv (one row)
   - draft_md (Markdown section)
