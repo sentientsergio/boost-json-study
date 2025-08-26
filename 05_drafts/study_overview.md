@@ -1,6 +1,6 @@
-### Boost.JSON Competitive Study — Deliverable Preview (Staged)
+### Boost.JSON Competitive Study — Overview
 
-This preview summarizes three completed slices: Standard Compliance, Streaming Support, and Performance: Parse Speed. All statements cite Evidence IDs from the EvidenceLog; comparisons are qualified by mode/dataset/hardware constraints.
+This overview summarizes three completed slices: Standard Compliance, Streaming Support, and Performance: Parse Speed. All statements cite Evidence IDs from the EvidenceLog; comparisons are qualified by mode/dataset/hardware constraints.
 
 ## Executive summary
 
