@@ -8,6 +8,12 @@ This repository contains all artifacts for the Boost.JSON Competitive Market Res
 - simdjson
 - JSON for Modern C++ (nlohmann/json)
 
+## Study Overview (start here)
+
+The most important entry point for this repository is the Study Overview. It summarizes completed slices and links to evidence and narratives:
+
+- [05_drafts/study_overview.md](05_drafts/study_overview.md)
+
 ## Structure
 
 ```
@@ -39,7 +45,7 @@ This repository contains all artifacts for the Boost.JSON Competitive Market Res
 1. Create a new chat and paste the kickoff from [90_prompts/agent_autoslice_hybrid.md](90_prompts/agent_autoslice_hybrid.md).
 2. When prompted, paste up to four sources using the provided template (one per library if possible).
 3. The agent will validate, then return four artifacts: `evidence_csv`, `matrix_row_csv`, `draft_md`, `redteam_md`.
-4. Apply outputs per [07_slices/parse_speed__autoslice_poc.runbook.md](07_slices/parse_speed__autoslice_poc.runbook.md) (auto_commit=false by default).
+4. Apply outputs per [07_slices/parse_speed\_\_autoslice_poc.runbook.md](07_slices/parse_speed__autoslice_poc.runbook.md) (auto_commit=false by default).
 
 ## Public scope and draft visibility
 
