@@ -8,11 +8,11 @@ This repository contains all artifacts for the Boost.JSON Competitive Market Res
 - simdjson
 - JSON for Modern C++ (nlohmann/json)
 
-## Study Overview (start here)
+## Completed Study (start here)
 
-The most important entry point for this repository is the Study Overview. It summarizes completed slices and links to evidence and narratives:
+The primary entry point for this repository is the completed technical overview:
 
-- [05_drafts/study_overview.md](05_drafts/study_overview.md)
+- [05_drafts/Boost_JSON_Technical_Overview.md](05_drafts/Boost_JSON_Technical_Overview.md)
 
 ## Structure
 
